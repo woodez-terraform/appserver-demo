@@ -1,6 +1,6 @@
 pipeline {
 
-  agent compute01
+  agent { label 'onprem' }
 
   stages {
 
