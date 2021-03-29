@@ -2,9 +2,6 @@ pipeline {
 
   agent compute01
 
-  environment {
-  }
-
   stages {
 
     stage('Checkout') {
