@@ -3,13 +3,6 @@ pipeline {
   agent compute01
 
   environment {
-    SALTAPI_PORT=8080
-    SALTAPI_CREDENTIALS_USR=terrasalt
-    SALTAPI_CREDENTIALS_PSW=jandrew28
-    SALTAPI_EAUTH=pam
-    SALTAPI_SSL_VERIFY=False
-    SALTAPI_PROTO=HTTPS
-    TF_VAR_salt_master=192.168.2.208
   }
 
   stages {
