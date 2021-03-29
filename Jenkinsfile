@@ -15,8 +15,8 @@ pipeline {
           sh 'terraform init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
           sh 'terraform plan -out myplan'
         }
-      }      
-    }
+    }      
+
 
     stage('Approval') {
       steps {
@@ -26,11 +26,11 @@ pipeline {
       }
     }
 
+
     stage('TF Apply') {
       steps {
           sh 'terraform apply -input=false myplan'
         }
-      }
     }
 
   } 
