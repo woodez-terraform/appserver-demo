@@ -39,7 +39,7 @@ pipeline {
 
     stage('TF Apply') {
       steps {
-          sh 'terraform -chdir=src destroy -input=false'
+          sh 'terraform -chdir=src destroy -auto-approve'
         }
     }
 
