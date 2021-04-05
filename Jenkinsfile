@@ -16,7 +16,6 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-          echo "You choose: ${params.Action}"
           sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
           sh 'terraform -chdir=src plan -out myplan'
         }
@@ -34,9 +33,16 @@ pipeline {
 
     stage('TF Apply') {
       steps {
-          sh 'terraform -chdir=src apply -input=false myplan'
-        }
-    }
+          echo "You choose: ${params.Action}"
+          if(${params.Action}.equals("Build")){
+             sh 'terraform -chdir=src apply -input=false myplan' 
+          }
+
+          else if($params.Action}.equals("Teardown")){
+             sh 'terraform -chdir=src -auto-approve}'
+          } 
+      }
+   }
 
   } 
 
