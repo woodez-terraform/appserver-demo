@@ -38,7 +38,7 @@ pipeline {
              sh 'terraform -chdir=src apply -input=false myplan' 
           }
 
-          else if(params.Action}.equals("Teardown")){
+          else if(params.Action.equals("Teardown")){
              sh 'terraform -chdir=src -auto-approve}'
           } 
       }
