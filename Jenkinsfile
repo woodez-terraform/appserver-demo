@@ -3,7 +3,7 @@ pipeline {
   agent { label 'onprem' }
 
   parameters {
-      choice(choices: ['Windows', 'Linux'], description: 'What OS?', name: 'PickAnOS')
+      choice(choices: ['Build', 'Teardown'], description: 'what is action?', name: 'Action')
   }
 
   stages {
@@ -16,7 +16,7 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-          echo "You choose: ${params.PickAnOS}"
+          echo "You choose: ${params.Action}"
           sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
           sh 'terraform -chdir=src plan -out myplan'
         }
