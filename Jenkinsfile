@@ -34,11 +34,11 @@ pipeline {
     stage('TF Apply') {
       steps {
           echo "You choose: ${params.Action}"
-          if(${params.Action}.equals("Build")){
+          if(params.Action.equals("Build")){
              sh 'terraform -chdir=src apply -input=false myplan' 
           }
 
-          else if($params.Action}.equals("Teardown")){
+          else if(params.Action}.equals("Teardown")){
              sh 'terraform -chdir=src -auto-approve}'
           } 
       }
