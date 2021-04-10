@@ -16,33 +16,11 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-          sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
-          sh 'terraform -chdir=src plan -out myplan'
+          sh "echo sh isFoo is ${params.Action}" 
         }
     }      
 
 
-    stage('Approval') {
-      steps {
-        script {
-          def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
-        }
-      }
-    }
-
-
-    stage('TF Apply') {
-      steps {
-          echo "You choose: ${params.Action}"
-          if(params.Action.equals("Build")){
-             sh 'terraform -chdir=src apply -input=false myplan' 
-          }
-
-          else if(params.Action.equals("Teardown")){
-             sh 'terraform -chdir=src -auto-approve}'
-          } 
-      }
-   }
 
   } 
 
