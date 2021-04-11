@@ -4,7 +4,8 @@ pipeline {
 
   parameters{
       choice(choices: ['Build', 'Teardown'], description: 'what is action?', name: 'Action')
-      string(defaultValue: 'scriptcrunch', name: 'hostname', trim: true )
+      string(defaultValue: 'Enter Hostname', name: 'Hostname', trim: true )
+      string(defaultValue: 'Enter IP Adress', name: 'IPAddress', trim:true )
   }
 
 
