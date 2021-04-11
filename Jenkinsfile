@@ -20,6 +20,8 @@ pipeline {
       }
     }
 
+hostname = "app01.woodez.net"
+
     stage('TF Plan') {
       steps {
           sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
@@ -27,7 +29,7 @@ pipeline {
           sh "echo test ${params.Hostname}"
           sh "echo test ${params.IPAddress}"
           sh "echo test ${params.Project}"
-          sh 'terraform -chdir=src plan -out myplan'
+          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\"-out myplan"
         }
     }      
 
