@@ -4,6 +4,13 @@ pipeline {
 
 
   stages {
+    
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
     stage('Setup parameters') {
       steps {
 
@@ -24,11 +31,6 @@ pipeline {
       }
     }
 
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
-    }
 
     stage('TF Plan') {
       steps {
