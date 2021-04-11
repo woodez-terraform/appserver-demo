@@ -16,12 +16,14 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-          if (params.Action == 'Build') {
-             sh "echo sh isFoo is ${params.Action}" 
-          }
-          else {
-             sh "echo teardown on ${params.Acitioni}"
-          }        
+         scripts { 
+             if (params.Action == 'Build') {
+                 sh "echo sh isFoo is ${params.Action}" 
+             }
+             else {
+                 sh "echo teardown on ${params.Acitioni}"
+             }
+         }    
       }
     }      
 
