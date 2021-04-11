@@ -2,6 +2,10 @@ pipeline {
 
   agent { label 'onprem' }
 
+  parameters{
+      choice(choices: ['Build', 'Teardown'], description: 'what is action?', name: 'Action')
+  }
+
 
   stages {
     
