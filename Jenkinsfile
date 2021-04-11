@@ -16,8 +16,13 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-          sh "echo sh isFoo is ${params.Action}" 
-        }
+          if (params.Action = 'Build') {
+             sh "echo sh isFoo is ${params.Action}" 
+          }
+          else {
+             sh "echo teardown on ${params.Acitioni}"
+          }        
+      }
     }      
 
 
