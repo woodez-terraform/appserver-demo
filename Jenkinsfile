@@ -2,6 +2,7 @@ pipeline {
 
   agent { label 'onprem' }
 
+
   parameters{
       string(defaultValue: 'Project name', name: 'Project', trim: true )
       string( defaultValue: 'https://github.com/woodez-terraform/appserver-demo.git', name: 'GIT_URL', trim: true )
@@ -12,7 +13,7 @@ pipeline {
 
 
   stages {
-    
+
     stage('Checkout') {
       steps {
         checkout scm
@@ -21,25 +22,33 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-         script {
-              if (params.Action == "Build"){
-                   sh "echo sh isFoo is ${params.Action}"
-                   sh "echo sh isFoo is ${params.Hostname}"
-                   sh "echo sh isFoo is ${params.IPAddress}"
-                   sh "echo sh isFoo is ${params.Project}"
-              
-              }
-              else {
-                   sh "echo test ${params.Action}"
-                   sh "echo test ${params.Hostname}"
-                   sh "echo test ${params.IPAddress}"
-                   sh "echo test ${params.Project}"
-              }
-         } 
-      }    
+          sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
+          sh 'terraform -chdir=src plan -var="ipaddy=${params.IPAddress}" -var="hostname=${params.Hostname}" -var="vmpool=app01-pool" -var="cpu_num=2" -out myplan'
+        }
     }      
 
 
+    stage('Approval') {
+      steps {
+        script {
+          def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
+        }
+      }
+    }
+
+
+    stage('TF Apply') {
+      steps {
+          echo "You choose: ${params.Action}"
+          if(params.Action.equals("Build")){
+             sh 'terraform -chdir=src apply -input=false myplan' 
+          }
+
+          else if(params.Action.equals("Teardown")){
+             sh 'terraform -chdir=src -auto-approve}'
+          } 
+      }
+   }
 
   } 
 
