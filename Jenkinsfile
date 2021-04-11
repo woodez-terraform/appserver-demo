@@ -2,19 +2,26 @@ pipeline {
 
   agent { label 'onprem' }
 
-  parameters([{
-      choice(
-          choices: ['Build', 'Teardown'], 
-          description: 'what is action?', 
-          name: 'Action'
-      ),
-      string(
-          name: 'hostname',
-          trim: true
-      )
-  ]}
-
   stages {
+
+    stage('Setup parameters') {
+        steps {
+            script {
+                parameters([{
+                   choice(
+                       choices: ['Build', 'Teardown'],
+                       description: 'what is action?',
+                       name: 'Action'
+                   ),
+                   string(
+                       name: 'hostname',
+                       trim: true
+                   )
+                ]}
+
+            }
+        }
+    }
 
     stage('Checkout') {
       steps {
