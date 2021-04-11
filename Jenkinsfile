@@ -23,7 +23,7 @@ pipeline {
     stage('TF Plan') {
       steps {
           sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
-          sh 'echo test ${params.Action}'
+          sh "echo test ${params.Action}"
           sh "echo test ${params.Hostname}"
           sh "echo test ${params.IPAddress}"
           sh "echo test ${params.Project}"
