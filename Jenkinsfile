@@ -14,6 +14,7 @@ pipeline {
     
     stage('Checkout') {
       steps {
+        git changelog: false, poll: false, url: 'https://github.com/woodez-terraform/appserver-demo.git'
         checkout scm
       }
     }
