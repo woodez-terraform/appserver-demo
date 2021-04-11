@@ -27,7 +27,7 @@ pipeline {
           sh "echo test ${params.Hostname}"
           sh "echo test ${params.IPAddress}"
           sh "echo test ${params.Project}"
-          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\"-out myplan"
+          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -out myplan"
         }
     }      
 
