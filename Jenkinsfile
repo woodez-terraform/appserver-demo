@@ -17,35 +17,19 @@ pipeline {
       }
     }
 
-    stage('Setup parameters') {
-      steps {
-
-        script {
-           parameters{[
-               choice(
-                   choices: ['Build', 'Teardown'],
-                   description: 'what is action?',
-                   name: 'Action'
-               ),
-               string(
-                   defaultValue: 'scriptcrunch', 
-                   name: 'hostname',
-                   trim: true
-               )
-           ]}
-        }
-      }
-    }
-
-
     stage('TF Plan') {
       steps {
          script {
               if (params.Action == "Build"){
                    sh "echo sh isFoo is ${params.Action}"
+                   sh "echo sh isFoo is ${params.Hostname}"
+                   sh "echo sh isFoo is ${params.IPAddress}"
+              
               }
               else {
-                   sh "echo test"
+                   sh "echo test ${params.Action}"
+                   sh "echo test ${params.Hostname}"
+                   sh "echo test ${params.IPAddress}"
               }
          } 
       }    
