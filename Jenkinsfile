@@ -4,7 +4,7 @@ pipeline {
 
   parameters{
       string(defaultValue: 'Project name', name: 'Project', trim: true )
-      string( name: 'GIT_URL', trim: true )
+      string( defaultValue: 'https://github.com/woodez-terraform/appserver-demo.git', name: 'GIT_URL', trim: true )
       choice(choices: ['Build', 'Teardown'], description: 'what is action?', name: 'Action')
       string(defaultValue: 'Enter Hostname', name: 'Hostname', trim: true )
       string(defaultValue: 'Enter IP Adress', name: 'IPAddress', trim:true )
@@ -15,7 +15,6 @@ pipeline {
     
     stage('Checkout') {
       steps {
-        git changelog: false, poll: false, url: "https://github.com/woodez-terraform/${params.Project}.git"
         checkout scm
       }
     }
