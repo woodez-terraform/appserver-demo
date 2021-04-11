@@ -1,13 +1,14 @@
 pipeline {
 
   agent { label 'onprem' }
-  parameters([{
+  parameters({
       choice(
           choices: ['Build', 'Teardown'],
           description: 'what is action?',
           name: 'Action'
       ),
       string(
+          defaultValue: 'scriptcrunch', 
           name: 'hostname',
           trim: true
       )
@@ -34,7 +35,6 @@ pipeline {
                    sh "echo test"
               }
          } 
-         sh "echo ${params.hostname}"
       }    
     }      
 
