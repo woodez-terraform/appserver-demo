@@ -23,7 +23,7 @@ pipeline {
     stage('TF Plan') {
       steps {
           sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
-          sh 'terraform -chdir=src plan -var="ipaddy=${params.IPAddress}" -var="hostname=${params.Hostname}" -var="vmpool=app01-pool" -var="cpu_num=2" -out myplan'
+          sh 'terraform -chdir=src plan -out myplan'
         }
     }      
 
