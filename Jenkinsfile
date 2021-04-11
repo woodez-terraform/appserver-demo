@@ -2,9 +2,17 @@ pipeline {
 
   agent { label 'onprem' }
 
-  parameters {
-      choice(choices: ['Build', 'Teardown'], description: 'what is action?', name: 'Action')
-  }
+  parameters([{
+      choice(
+          choices: ['Build', 'Teardown'], 
+          description: 'what is action?', 
+          name: 'Action'
+      ),
+      string(
+          name: 'hostname',
+          trim: true
+      )
+  ]}
 
   stages {
 
@@ -24,6 +32,7 @@ pipeline {
                    sh "echo test"
               }
          } 
+         sh "echo ${param.hostname}"
       }    
     }      
 
