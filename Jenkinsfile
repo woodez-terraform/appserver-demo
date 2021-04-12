@@ -27,7 +27,7 @@ pipeline {
           sh "echo test ${params.Hostname}"
           sh "echo test ${params.IPAddress}"
           sh "echo test ${params.Project}"
-          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -out myplan"
+          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
         }
     }      
 
@@ -43,8 +43,16 @@ pipeline {
 
     stage('TF Apply') {
       steps {
-          echo "You choose: ${params.Action}"
-          sh 'terraform -chdir=src apply -input=false myplan' 
+          echo "You chose: ${params.Action}"
+          script {
+              if (params.Action == "Build"){
+                  sh 'terraform -chdir=src apply -input=false myplan' 
+              }
+              else {
+                  sh 'terraform -chdir=src destroy -input=false myplan'
+              }
+          }
+
       }
    }
 
