@@ -49,7 +49,7 @@ pipeline {
                   sh 'terraform -chdir=src apply -input=false myplan' 
               }
               else {
-                  sh 'cd src && terraform destroy -auto-approve'
+                  sh 'terraform -chdir=src destroy -auto-approve'
               }
           }
 
