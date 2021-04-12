@@ -26,14 +26,9 @@ pipeline {
           sh "echo test ${params.Hostname}"
           sh "echo test ${params.IPAddress}"
           sh "echo test ${params.Project}"
-          script {
-              if (param.Action == "Build"){
-                  sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
-                  sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
-              }
-          }
+          sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
+          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
         }
-
     }      
 
 
