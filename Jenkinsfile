@@ -59,7 +59,7 @@ pipeline {
 
    stage('TF Show') {
      steps {
-        scripts {
+        script {
             if (params.Action == "Build"){
                sh 'terraform -chdir=src show'
             }
