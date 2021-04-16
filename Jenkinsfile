@@ -56,6 +56,20 @@ pipeline {
       }
    }
 
+
+   stage('TF Show') {
+     steps {
+        scripts {
+            if (params.Action == "Build"){
+               sh 'terraform -chdir=src show'
+            }
+            else {
+                sh 'echo "Nothing deployed for this project"'
+            }
+        } 
+     }
+   }
+
   } 
 
 }
