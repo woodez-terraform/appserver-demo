@@ -14,6 +14,7 @@ pipeline {
 
   stages {
 
+
     stage('Checkout') {
       steps {
         checkout scm
@@ -26,6 +27,8 @@ pipeline {
           sh "echo test ${params.Hostname}"
           sh "echo test ${params.IPAddress}"
           sh "echo test ${params.Project}"
+          sh "echo 'Downloading the latest Terraform modules'"
+          sh 'terraform -chdir=src get -update'
           sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
           sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
         }
