@@ -7,6 +7,7 @@ pipeline {
       string(defaultValue: 'Project name', name: 'Project', trim: true )
       string( defaultValue: 'https://github.com/woodez-terraform/appserver-demo.git', name: 'GIT_URL', trim: true )
       choice(choices: ['Build', 'Teardown'], description: 'what is action?', name: 'Action')
+      choice(choices: ['Large', 'Medium', 'Small'], description: 'Select Size: ', name: 'Size')
       string(defaultValue: 'Enter Hostname', name: 'Hostname', trim: true )
       string(defaultValue: 'Enter IP Adress', name: 'IPAddress', trim:true )
   }
@@ -24,13 +25,14 @@ pipeline {
     stage('TF Plan') {
       steps {
           sh "echo test ${params.Action}"
+          sh "echo test ${params.Size}"
           sh "echo test ${params.Hostname}"
           sh "echo test ${params.IPAddress}"
           sh "echo test ${params.Project}"
           sh "echo 'Downloading the latest Terraform modules'"
           sh 'terraform -chdir=src get -update'
           sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
-          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
+          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
         }
     }      
 
