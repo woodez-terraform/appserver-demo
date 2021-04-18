@@ -13,7 +13,7 @@ variable tshirt_mapping {
   default = {
     "Small" = "CentOS-7-x86_64-GenericCloud.qcow2",
     "Medium" = "CentOS-7-20GB.qcow2",
-    "Large" = "CentOS-7-20GB.qcow2"
+    "Large" = "CentOS-7-50GB.qcow2"
    }
 }
 
