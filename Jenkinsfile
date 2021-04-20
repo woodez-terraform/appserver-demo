@@ -7,7 +7,7 @@ pipeline {
       string(defaultValue: 'Project name', name: 'Project', trim: true )
       string( defaultValue: 'https://github.com/woodez-terraform/appserver-demo.git', name: 'GIT_URL', trim: true )
       choice(choices: ['Build', 'Teardown'], description: 'what is action?', name: 'Action')
-      choice(choices: ['Large', 'Medium', 'Small'], description: 'Select Size: ', name: 'Size')
+      choice(choices: ['Large', 'Medium', 'Small', 'Rhel8'], description: 'Select Size: ', name: 'Size')
       string(defaultValue: 'Enter Hostname', name: 'Hostname', trim: true )
       string(defaultValue: 'Enter IP Adress', name: 'IPAddress', trim:true )
   }
