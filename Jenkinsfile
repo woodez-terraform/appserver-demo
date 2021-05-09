@@ -33,8 +33,8 @@ pipeline {
           sh "echo test ${params.Workspace}"
           sh "echo 'Downloading the latest Terraform modules'"
           sh 'terraform -chdir=src get -update'
-          sh 'terraform -chdir=src init -backend-config="conn_str=postgres://tf_user:jandrew28@192.168.2.213/terraform_backend?sslmode=disable"'
-          sh 'terraform workspace select testing'
+          sh 'terraform -chdir=src init'
+          sh "terraform workspace select ${params.Workspace}"
           sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
         }
     }      
@@ -55,6 +55,7 @@ pipeline {
           script {
               if (params.Action == "Build"){
                   sh 'terraform -chdir=src apply -input=false myplan' 
+                  sh 'rm -f src/myplan'
               }
               else {
                   sh 'terraform -chdir=src destroy -auto-approve'
