@@ -36,7 +36,11 @@ pipeline {
           sh 'terraform -chdir=src init'
           sh "terraform workspace select ${params.Workspace}"
           sh "terraform workspace list"
-          sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
+          script {
+              if (params.Action == "Build"){
+                  sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
+              }
+          }
         }
     }      
 
