@@ -35,6 +35,7 @@ pipeline {
           sh 'terraform -chdir=src get -update'
           sh 'terraform -chdir=src init'
           sh "terraform workspace select ${params.Workspace}"
+          sh "terraform workspace list"
           sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
         }
     }      
@@ -55,13 +56,13 @@ pipeline {
           script {
               if (params.Action == "Build"){
                   sh "terraform workspace select ${params.Workspace}"
-                  sh "terraform workspace list 
+                  sh "terraform workspace list" 
                   sh 'terraform -chdir=src apply -input=false myplan' 
                   sh 'rm -f src/myplan'
               }
               else {
                   sh "terraform workspace select ${params.Workspace}"
-                  sh "terraform workspace list
+                  sh "terraform workspace list"
 
                   sh 'terraform -chdir=src destroy -auto-approve'
               }
@@ -76,7 +77,7 @@ pipeline {
         script {
             if (params.Action == "Build"){
                sh "terraform workspace select ${params.Workspace}"
-               sh "terraform workspace list
+               sh "terraform workspace list"
                sh 'terraform -chdir=src show'
             }
             else {
