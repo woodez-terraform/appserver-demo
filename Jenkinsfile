@@ -54,10 +54,15 @@ pipeline {
           echo "You chose: ${params.Action}"
           script {
               if (params.Action == "Build"){
+                  sh "terraform workspace select ${params.Workspace}"
+                  sh "terraform workspace list 
                   sh 'terraform -chdir=src apply -input=false myplan' 
                   sh 'rm -f src/myplan'
               }
               else {
+                  sh "terraform workspace select ${params.Workspace}"
+                  sh "terraform workspace list
+
                   sh 'terraform -chdir=src destroy -auto-approve'
               }
           }
@@ -70,6 +75,8 @@ pipeline {
      steps {
         script {
             if (params.Action == "Build"){
+               sh "terraform workspace select ${params.Workspace}"
+               sh "terraform workspace list
                sh 'terraform -chdir=src show'
             }
             else {
