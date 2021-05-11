@@ -25,21 +25,23 @@ pipeline {
 
     stage('TF Plan') {
       steps {
-          sh "echo test ${params.Action}"
-          sh "echo test ${params.Size}"
-          sh "echo test ${params.Hostname}"
-          sh "echo test ${params.IPAddress}"
-          sh "echo test ${params.Project}"
-          sh "echo test ${params.Workspace}"
-          sh "echo 'Downloading the latest Terraform modules'"
-          sh 'terraform -chdir=src get -update'
-          sh 'terraform -chdir=src init'
-          sh "terraform workspace select ${params.Workspace}"
-          sh "terraform workspace list"
-          sh "terraform -chdir=src show"
           script {
               if (params.Action == "Build"){
-                  sh "terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan"
+                    sh """
+                        echo \"test ${params.Action}\"
+                        echo \"test ${params.Size}\"
+                        echo \"test ${params.Hostname}\"
+                        echo \"test ${params.IPAddress}\"
+                        echo \"test ${params.Project}"
+                        echo \"test ${params.Workspace}"
+                        echo 'Downloading the latest Terraform modules'
+                        terraform -chdir=src get -update
+                        terraform -chdir=src init
+                        terraform workspace select ${params.Workspace}
+                        terraform workspace list
+                        terraform -chdir=src show
+                        terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
+                    """
               }
           }
         }
@@ -60,16 +62,22 @@ pipeline {
           echo "You chose: ${params.Action}"
           script {
               if (params.Action == "Build"){
-                  sh "terraform workspace select ${params.Workspace}"
-                  sh "terraform workspace list" 
-                  sh 'terraform -chdir=src apply -input=false myplan' 
-                  sh 'rm -f src/myplan'
+                  sh """ 
+                       terraform workspace select ${params.Workspace}
+                       terraform workspace list 
+                       terraform -chdir=src apply -input=false myplan 
+                       rm -f src/myplan
+                  """
               }
               else {
-                  sh "terraform workspace select ${params.Workspace}"
-                  sh "terraform workspace list"
 
-                  sh 'terraform -chdir=src destroy -auto-approve'
+                  sh """
+                       terraform -chdir=src get -update
+                       terraform -chdir=src init
+                       terraform workspace select ${params.Workspace}
+                       terraform workspace list
+                       terraform -chdir=src destroy -auto-approve
+                  """
               }
           }
 
@@ -81,9 +89,11 @@ pipeline {
      steps {
         script {
             if (params.Action == "Build"){
-               sh "terraform workspace select ${params.Workspace}"
-               sh "terraform workspace list"
-               sh 'terraform -chdir=src show'
+               sh """
+                    terraform workspace select ${params.Workspace}
+                    terraform workspace list
+                    terraform -chdir=src show
+               """
             }
             else {
                 sh 'echo "Nothing deployed for this project"'
