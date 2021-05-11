@@ -6,7 +6,7 @@ pipeline {
   parameters{
       string(defaultValue: 'Project name', name: 'Project', trim: true )
       string( defaultValue: 'https://github.com/woodez-terraform/appserver-demo.git', name: 'GIT_URL', trim: true )
-      choice(choices: ['Build', 'Teardown'], description: 'what is action?', name: 'Action')
+      choice(choices: ['Build', 'Teardown', 'Show'], description: 'what is action?', name: 'Action')
       choice(choices: ['Large', 'Medium', 'Small', 'Rhel8'], description: 'Select Size: ', name: 'Size')
       string(defaultValue: 'Enter Hostname', name: 'Hostname', trim: true )
       string(defaultValue: 'Enter IP Adress', name: 'IPAddress', trim:true )
@@ -64,12 +64,25 @@ pipeline {
           script {
               if (params.Action == "Build"){
                   sh """ 
+                       pwd
                        terraform workspace select ${params.Workspace}
                        terraform workspace list 
-                       terraform -chdir=src apply -input=false myplan 
-                       rm -f src/myplan
+                       terraform apply -input=false myplan 
+                       rm -f myplan
                   """
               }
+
+              else if (params.Action == "Teardown"){
+
+                  sh """
+                       cd src
+                       terraform workspace select ${params.Workspace}
+                       terraform workspace list
+                       terraform  destroy -auto-approve
+                       terraform show
+                  """
+              }
+              
               else {
 
                   sh """
@@ -92,7 +105,7 @@ pipeline {
                sh """
                     terraform workspace select ${params.Workspace}
                     terraform workspace list
-                    terraform -chdir=src show
+                    terraform show
                """
             }
             else {
