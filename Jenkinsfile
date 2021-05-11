@@ -72,11 +72,9 @@ pipeline {
               else {
 
                   sh """
-                       terraform -chdir=src get -update
-                       terraform -chdir=src init
                        terraform workspace select ${params.Workspace}
                        terraform workspace list
-                       terraform -chdir=src destroy -auto-approve
+                       terraform -chdir=src show
                   """
               }
           }
