@@ -10,6 +10,7 @@ pipeline {
       choice(choices: ['Large', 'Medium', 'Small', 'Rhel8'], description: 'Select Size: ', name: 'Size')
       string(defaultValue: 'Enter Hostname', name: 'Hostname', trim: true )
       string(defaultValue: 'Enter IP Adress', name: 'IPAddress', trim:true )
+      string(defaultValue: 'Enter Workspace', name: 'Workspace', trim:true )
   }
 
 
@@ -32,12 +33,14 @@ pipeline {
                         echo \"test ${params.Hostname}\"
                         echo \"test ${params.IPAddress}\"
                         echo \"test ${params.Project}"
+                        echo \"test ${params.Workspace}"
                         echo 'Downloading the latest Terraform modules'
                         cd src
                         terraform get -update
                         terraform init
-                        terraform workspace new ${params.Project}
+                        terraform workspace select ${params.Workspace}
                         terraform workspace list
+                        terraform show
                         terraform plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
                     """
               }
@@ -63,9 +66,9 @@ pipeline {
                   sh """ 
                        pwd
                        cd src
-                       terraform workspace select ${params.Project}
+                       terraform workspace select ${params.Workspace}
                        terraform workspace list 
-                       terraform apply -input=false myplan
+                       terraform apply -input=false myplan 
                        rm -f myplan
                   """
               }
@@ -74,10 +77,10 @@ pipeline {
 
                   sh """
                        cd src
-                       terraform workspace select ${params.Project}
+                       terraform workspace select ${params.Workspace}
                        terraform workspace list
                        terraform  destroy -auto-approve
-                       terraform workspace delete ${params.Project} 
+                       terraform show
                   """
               }
               
@@ -85,7 +88,7 @@ pipeline {
 
                   sh """
                        cd src               
-                       terraform workspace select ${params.Project}
+                       terraform workspace select ${params.Workspace}
                        terraform workspace list
                        terraform show
                   """
@@ -102,7 +105,7 @@ pipeline {
             if (params.Action == "Build"){
                sh """
                     cd src
-                    terraform workspace select ${params.Project}
+                    terraform workspace select ${params.Workspace}
                     terraform workspace list
                     terraform show
                """
