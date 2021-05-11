@@ -65,6 +65,7 @@ pipeline {
               if (params.Action == "Build"){
                   sh """ 
                        pwd
+                       cd src
                        terraform workspace select ${params.Workspace}
                        terraform workspace list 
                        terraform apply -input=false myplan 
@@ -103,6 +104,7 @@ pipeline {
         script {
             if (params.Action == "Build"){
                sh """
+                    cd src
                     terraform workspace select ${params.Workspace}
                     terraform workspace list
                     terraform show
