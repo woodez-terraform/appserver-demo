@@ -76,7 +76,8 @@ pipeline {
                        cd src
                        terraform workspace select ${params.Project}
                        terraform workspace list
-                       terraform  destroy -auto-approve
+                       terraform destroy -auto-approve
+                       terraform workspace select default
                        terraform workspace delete ${params.Project} 
                   """
               }
