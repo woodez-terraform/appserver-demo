@@ -4,12 +4,12 @@ pipeline {
 
 
   parameters{
-      string(defaultValue: 'Project name', name: 'Project', trim: true )
-      string( defaultValue: 'https://github.com/woodez-terraform/appserver-demo.git', name: 'GIT_URL', trim: true )
-      choice(choices: ['Build', 'Teardown', 'Show'], description: 'what is action?', name: 'Action')
-      choice(choices: ['Large', 'Medium', 'Small', 'Rhel8'], description: 'Select Size: ', name: 'Size')
-      string(defaultValue: 'Enter Hostname', name: 'Hostname', trim: true )
-      string(defaultValue: 'Enter IP Adress', name: 'IPAddress', trim:true )
+      string(defaultValue: 'Project name', name: 'Project', description: 'When doing a show or teardown action all you need to define is project', trim: true )
+      string( defaultValue: 'https://github.com/woodez-terraform/appserver-demo.git', description: 'your git repo for your code', name: 'GIT_URL', trim: true )
+      choice(choices: ['Build', 'Teardown', 'Show'], description: 'Pick a action that you want to perform on your project', name: 'Action')
+      choice(choices: ['Large', 'Medium', 'Small', 'Rhel8'], description: 'Select Size: Only needed for build action', name: 'Size')
+      string(defaultValue: 'Enter Hostname', name: 'Hostname', description: 'Only needed for Build action', trim: true )
+      string(defaultValue: 'Enter IP Adress', name: 'IPAddress', description: 'Only needed for Build action', trim:true )
   }
 
 
