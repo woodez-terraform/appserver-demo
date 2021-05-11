@@ -35,12 +35,13 @@ pipeline {
                         echo \"test ${params.Project}"
                         echo \"test ${params.Workspace}"
                         echo 'Downloading the latest Terraform modules'
-                        terraform -chdir=src get -update
-                        terraform -chdir=src init
+                        cd src
+                        terraform get -update
+                        terraform init
                         terraform workspace select ${params.Workspace}
                         terraform workspace list
-                        terraform -chdir=src show
-                        terraform -chdir=src plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
+                        terraform show
+                        terraform plan -var=\"hostname=${params.Hostname}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
                     """
               }
           }
@@ -72,9 +73,10 @@ pipeline {
               else {
 
                   sh """
+                       cd src               
                        terraform workspace select ${params.Workspace}
                        terraform workspace list
-                       terraform -chdir=src show
+                       terraform show
                   """
               }
           }
