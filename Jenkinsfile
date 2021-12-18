@@ -35,6 +35,7 @@ pipeline {
                         echo 'Downloading the latest Terraform modules'
                         cd src
                         terraform get -update
+                        terraform workspace select default
                         terraform init
                         terraform workspace new ${params.Project}
                         terraform workspace list
