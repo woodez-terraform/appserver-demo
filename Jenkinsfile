@@ -73,6 +73,7 @@ pipeline {
 
                   sh """
                        cd src
+                       python3 httpsrequests.py ${params.Project} state.sls
                        terraform workspace select ${params.Project}
                        terraform workspace list
                        terraform destroy -auto-approve
