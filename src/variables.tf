@@ -15,7 +15,7 @@ variable tshirt_mapping {
     "Medium" = "CentOS-7-20GB.qcow2",
     "Large" = "CentOS-7-50GB.qcow2"
     "Rhel8" = "CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2"
-    "Rocky" = "Rocky-9-10GB.qcow2"
+    "Centos9" = "CentoOS-9-30GB.qcow2"
   }
 }
 
