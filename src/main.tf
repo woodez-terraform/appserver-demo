@@ -20,6 +20,7 @@ provider "libvirt" {
 module "rhel_server_libvirtd" {
   source = "github.com/woodez-terraform/rhel-server-libvirtd//modules/services/rhel7-server"
   ipaddy = var.ipaddy
+  interface = var.inter
   hostname = var.hostname
   tshirt = "${lookup(var.tshirt_mapping, var.size)}"
   vmpool = var.vmpool
