@@ -31,7 +31,7 @@ pipeline {
                         echo \"test ${params.Size}\"
                         echo \"test ${params.Inter}\"
                         echo \"test ${params.IPAddress}\"
-                        echo \"test ${params.Project}"
+                        echo \"test ${params.Project}\"
                         echo 'Downloading the latest Terraform modules'
                         cd src
                         terraform get -update
@@ -39,7 +39,7 @@ pipeline {
                         terraform init
                         terraform workspace new ${params.Project}
                         terraform workspace list
-                        terraform plan -var=\"hostname=${params.Project}\" -var=\"size=${params.Size}\" -var=\"inter=$(param.Inter)\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
+                        terraform plan -var=\"hostname=${params.Project}\" -var=\"size=${params.Size}\" -var=\"inter=$(params.Inter)\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
                     """
               }
           }
