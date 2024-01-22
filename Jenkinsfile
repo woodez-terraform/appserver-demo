@@ -39,7 +39,7 @@ pipeline {
                         terraform init
                         terraform workspace new ${params.Project}
                         terraform workspace list
-                        terraform plan -var=\"hostname=${params.Project}\" -var=\"size=${params.Size}\" -var=\"inter=$(params.Inter)\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
+                        terraform plan -var=\"hostname=${params.Project}\" -var=\"size=${params.Size}\" -var=\"inter=${params.Inter}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
                     """
               }
           }
