@@ -3,6 +3,11 @@ variable ipaddy {
   default   = ""
 }
 
+variable inter {
+  type      = string
+  default   = ""
+}
+
 variable hostname {
   type      = string
   default   = ""

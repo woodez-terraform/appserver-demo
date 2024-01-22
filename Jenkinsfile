@@ -8,6 +8,7 @@ pipeline {
       string( defaultValue: 'https://github.com/woodez-terraform/appserver-demo.git', description: 'your git repo for your code', name: 'GIT_URL', trim: true )
       choice(choices: ['Build', 'Teardown', 'Show'], description: 'Pick a action that you want to perform on your project', name: 'Action')
       choice(choices: ['Large', 'Medium', 'Small', 'Rhel8', 'Centos9'], description: 'Select Size: Only needed for build action', name: 'Size')
+      choice(choices: ['eth0', 'enp1s0'], description: 'Select Inter name: Only needed for build action', name: 'Inter')
       string(defaultValue: 'Enter IP Adress', name: 'IPAddress', description: 'Only needed for Build action', trim:true )
   }
 
@@ -28,6 +29,7 @@ pipeline {
                     sh """
                         echo \"test ${params.Action}\"
                         echo \"test ${params.Size}\"
+                        echo \"test ${params.Inter}\"
                         echo \"test ${params.IPAddress}\"
                         echo \"test ${params.Project}"
                         echo 'Downloading the latest Terraform modules'
@@ -37,7 +39,7 @@ pipeline {
                         terraform init
                         terraform workspace new ${params.Project}
                         terraform workspace list
-                        terraform plan -var=\"hostname=${params.Project}\" -var=\"size=${params.Size}\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
+                        terraform plan -var=\"hostname=${params.Project}\" -var=\"size=${params.Size}\" -var=\"inter=$(param.Inter)\" -var=\"ipaddy=${params.IPAddress}\" -var=\"vmpool=${params.Project}\" -out myplan
                     """
               }
           }

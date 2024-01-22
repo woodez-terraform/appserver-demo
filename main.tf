@@ -18,6 +18,7 @@ provider "libvirt" {
 module "rhel_server_libvirtd" {
   source = "github.com/woodez-terraform/rhel-server-libvirtd//modules/services/rhel7-server"
   ipaddy = var.ipaddy
+  inter = var.inter
   hostname = var.hostname
   vmpool = var.vmpool
 }
